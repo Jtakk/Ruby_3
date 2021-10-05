@@ -1,4 +1,4 @@
-class Games
+class Game
   
   def initialize(coin=100, point=0)
     @coin = coin
@@ -6,15 +6,16 @@ class Games
     @status = "continue"
   end
   
+  
   def play_slot  # スロットゲームを1回プレイする
     bet = 0
     rate = 0
     getpoint = 0
-    pip = Array.new(3) { Array.new(3) }
+    pip = Array.new(3) { Array.new(3) }  # 3×3の行列を生成
     
-    while bet == 0 || (@coin - bet < 0) do
-      puts "コインが足りません" if (@coin - bet < 0)
-      puts "残りコイン数: #{@coin}"
+    while bet == 0 || (@coin - bet < 0) do  # @coinがマイナスにならないようにする
+      puts "!! コインが足りません !!" if (@coin - bet < 0)
+      puts "残りコイン: #{@coin}"
       puts "ポイント: #{@point}"
       puts "何コイン入れますか?"
       puts "1(10コイン) 2(30コイン) 3(50コイン) 4(やめとく)"
@@ -33,27 +34,15 @@ class Games
     @coin -= bet
     puts "-----------------------------"
     puts "エンターを3回押しましょう!"
-    step_1 = gets
-    pip[0] = [rand(9), rand(9), rand(9)]
-    puts "-----------------------------"
-    puts "|#{pip[0][0]}|#{pip[1][0]}|#{pip[2][0]}|"
-    puts "|#{pip[0][1]}|#{pip[1][1]}|#{pip[2][1]}|"
-    puts "|#{pip[0][2]}|#{pip[1][2]}|#{pip[2][2]}|"
-    puts ""
-    step_2 = gets
-    pip[1] = [rand(9), rand(9), rand(9)]
-    puts "-----------------------------"
-    puts "|#{pip[0][0]}|#{pip[1][0]}|#{pip[2][0]}|"
-    puts "|#{pip[0][1]}|#{pip[1][1]}|#{pip[2][1]}|"
-    puts "|#{pip[0][2]}|#{pip[1][2]}|#{pip[2][2]}|"
-    puts ""
-    step_3 = gets
-    pip[2] = [rand(9), rand(9), rand(9)]
-    puts "-----------------------------"
-    puts "|#{pip[0][0]}|#{pip[1][0]}|#{pip[2][0]}|"
-    puts "|#{pip[0][1]}|#{pip[1][1]}|#{pip[2][1]}|"
-    puts "|#{pip[0][2]}|#{pip[1][2]}|#{pip[2][2]}|"
-    puts ""
+    3.times do |i|
+      enter = gets
+      pip[i] = [rand(9), rand(9), rand(9)]  # 0~9までをランダムに生成
+      puts "-----------------------------"
+      puts "|#{pip[0][0]}|#{pip[1][0]}|#{pip[2][0]}|"
+      puts "|#{pip[0][1]}|#{pip[1][1]}|#{pip[2][1]}|"
+      puts "|#{pip[0][2]}|#{pip[1][2]}|#{pip[2][2]}|"
+      puts ""
+    end
     puts "-----------------------------"
     if pip[0][0] == pip[0][1] && pip[0][1] == pip[0][2]
       rate += 1
@@ -97,7 +86,7 @@ class Games
     @point += getpoint
     if @coin < 10
       @status = "finish"
-      puts "コインが10を下回ったので終了です"
+      puts "残りコインが10を下回ったので終了です"
     end
   end
   
@@ -120,5 +109,5 @@ class Games
 end
 
 
-game = Games.new()
+game = Game.new()
 game.roop_slot
